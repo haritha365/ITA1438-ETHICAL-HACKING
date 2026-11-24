@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Settings | SentinelShield AASS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body class="bg-primary">
+
+    <div class="sidebar-overlay"></div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a class="brand-logo" href="dashboard.html">
+                    <div class="brand-icon-box">
+                        <i data-lucide="shield-check" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <div>
+                        <span style="color: var(--primary-blue);">Sentinel</span><span style="color: var(--accent-purple);">Shield</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="sidebar-menu">
+                <div class="menu-category">Main Operations</div>
+                <a href="dashboard.html" class="sidebar-link">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Admin Dashboard</span>
+                </a>
+                <a href="realtime.html" class="sidebar-link">
+                    <i data-lucide="radar"></i>
+                    <span>Real-Time Radar</span>
+                </a>
+                <a href="analytics.html" class="sidebar-link">
+                    <i data-lucide="line-chart"></i>
+                    <span>Security Analytics</span>
+                </a>
+
+                <div class="menu-category">Threat Defense (Mod 2)</div>
+                <a href="ip_monitoring.html" class="sidebar-link">
+                    <i data-lucide="globe"></i>
+                    <span>IP Monitoring</span>
+                </a>
+                <a href="alerts.html" class="sidebar-link">
+                    <i data-lucide="bell"></i>
+                    <span>Security Alerts</span>
+                </a>
+                <a href="captcha.html" class="sidebar-link">
+                    <i data-lucide="puzzle"></i>
+                    <span>CAPTCHA Lab</span>
+                </a>
+
+                <div class="menu-category">Identity & Access (Mod 1)</div>
+                <a href="login_history.html" class="sidebar-link">
+                    <i data-lucide="history"></i>
+                    <span>Login History</span>
+                </a>
+                <a href="accounts.html" class="sidebar-link">
+                    <i data-lucide="users"></i>
+                    <span>Account Manager</span>
+                </a>
+                <a href="settings.html" class="sidebar-link active">
+                    <i data-lucide="settings"></i>
+                    <span>System Settings</span>
+                </a>
+
+                <div class="menu-category">Quick Navigation</div>
+                <a href="index.html" class="sidebar-link">
+                    <i data-lucide="external-link"></i>
+                    <span>Landing Page</span>
+                </a>
+                <a href="login.html" class="sidebar-link">
+                    <i data-lucide="log-in"></i>
+                    <span>Login Portal</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="user-profile-mini">
+                        <div class="user-avatar-mini">AD</div>
+                        <div>
+                            <div class="text-xs font-bold text-dark">Administrator</div>
+                            <div class="text-xs text-muted">SecOps Admin</div>
+                        </div>
+                    </div>
+                    <button class="btn-icon" title="Logout" onclick="AASS.logout()">
+                        <i data-lucide="log-out" style="width: 16px; height: 16px;"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-wrapper">
+            <header class="top-navbar">
+                <div class="top-navbar-left">
+                    <button id="sidebar-toggle-btn" class="btn-icon d-lg-none"><i data-lucide="menu"></i></button>
+                    <div>
+                        <h4 class="font-bold text-dark mb-0 text-base sm:text-lg">Adaptive Engine Security Parameters</h4>
+                        <div class="text-xs text-secondary">Tune heuristic detection thresholds, lockout intervals, and quarantine policies</div>
+                    </div>
+                </div>
+
+                <div class="top-navbar-right">
+                    <button id="btn-test-engine" class="btn-secondary-custom btn-sm-custom">
+                        <i data-lucide="activity" style="width: 14px; height: 14px;"></i> Run Diagnostics
+                    </button>
+                </div>
+            </header>
+
+            <main class="content-body">
+                
+                <form id="settings-form">
+                    <div class="row g-4">
+                        
+                        <!-- Module 1: Authentication & Lockout Rules -->
+                        <div class="col-lg-6">
+                            <div class="card-custom p-4 h-100">
+                                <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+                                    <div class="stat-icon blue" style="width: 36px; height: 36px;"><i data-lucide="shield" style="width: 18px;"></i></div>
+                                    <div>
+                                        <h5 class="font-bold text-dark mb-0">Module 1: Authentication Parameters</h5>
+                                        <span class="text-xs text-secondary">Identity & Access Configuration</span>
+                                    </div>
+                                </div>
+
+                                <!-- Max Failed Attempts -->
+                                <div class="mb-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <label class="form-label-custom mb-0" for="setting-max-attempts">Maximum Failed Login Attempts</label>
+                                        <span id="val-max-attempts" class="font-mono font-bold text-primary">5</span>
+                                    </div>
+                                    <input type="range" class="form-range" id="setting-max-attempts" min="2" max="10" step="1" value="5">
+                                    <div class="form-hint">Number of incorrect credentials permitted before an account triggers automatic defensive lockout.</div>
+                                </div>
+
+                                <!-- Time Window -->
+                                <div class="mb-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <label class="form-label-custom mb-0" for="setting-window-minutes">Attempt Sliding Time Window (Minutes)</label>
+                                        <span id="val-window-minutes" class="font-mono font-bold text-primary">5</span>
+                                    </div>
+                                    <input type="range" class="form-range" id="setting-window-minutes" min="1" max="30" step="1" value="5">
+                                    <div class="form-hint">Time window within which consecutive failed attempts are aggregated.</div>
+                                </div>
+
+                                <!-- Lockout Duration -->
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <label class="form-label-custom mb-0" for="setting-lockout-duration">Account Lockout Duration (Minutes)</label>
+                                        <span id="val-lockout-duration" class="font-mono font-bold text-primary">10</span>
+                                    </div>
+                                    <input type="range" class="form-range" id="setting-lockout-duration" min="5" max="60" step="5" value="10">
+                                    <div class="form-hint">Period for which a target account remains locked before automatic cooldown clears.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Module 2: Adaptive Attack Detection & Quarantine -->
+                        <div class="col-lg-6">
+                            <div class="card-custom p-4 h-100">
+                                <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+                                    <div class="stat-icon purple" style="width: 36px; height: 36px;"><i data-lucide="cpu" style="width: 18px;"></i></div>
+                                    <div>
+                                        <h5 class="font-bold text-dark mb-0">Module 2: Real-Time Detection Engine</h5>
+                                        <span class="text-xs text-secondary">Threat Detection & Defense Configuration</span>
+                                    </div>
+                                </div>
+
+                                <!-- CAPTCHA Trigger Threshold -->
+                                <div class="mb-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <label class="form-label-custom mb-0" for="setting-captcha-threshold">CAPTCHA Challenge Trigger Threshold</label>
+                                        <span id="val-captcha-threshold" class="font-mono font-bold text-purple">3</span>
+                                    </div>
+                                    <input type="range" class="form-range" id="setting-captcha-threshold" min="1" max="5" step="1" value="3">
+                                    <div class="form-hint">Failed attempts count that forces intermediate anti-bot CAPTCHA verification.</div>
+                                </div>
+
+                                <!-- Suspicious Anomaly Risk Threshold -->
+                                <div class="mb-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <label class="form-label-custom mb-0" for="setting-suspicious-threshold">Suspicious Anomaly Score Threshold (%)</label>
+                                        <span id="val-suspicious-threshold" class="font-mono font-bold text-purple">50</span>
+                                    </div>
+                                    <input type="range" class="form-range" id="setting-suspicious-threshold" min="20" max="80" step="5" value="50">
+                                    <div class="form-hint">Risk score (0–100%) at which session anomalies raise immediate warning alerts.</div>
+                                </div>
+
+                                <!-- IP Block Threshold -->
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <label class="form-label-custom mb-0" for="setting-ip-block-threshold">Auto-IP Quarantine Threshold</label>
+                                        <span id="val-ip-block-threshold" class="font-mono font-bold text-danger">8</span>
+                                    </div>
+                                    <input type="range" class="form-range" id="setting-ip-block-threshold" min="5" max="25" step="1" value="8">
+                                    <div class="form-hint">Cumulative attacks across accounts from same source IP before automatic quarantine.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Policy Toggles -->
+                        <div class="col-12">
+                            <div class="card-custom p-4">
+                                <h5 class="font-bold text-dark mb-3">Enforcement Policies & Real-Time Alerts</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="form-check form-switch p-2 rounded bg-light border ps-5">
+                                            <input class="form-check-input" type="checkbox" id="setting-auto-block-ip" checked>
+                                            <label class="form-check-label font-semibold text-dark text-sm" for="setting-auto-block-ip">
+                                                Automatic IP Blacklist & Isolation
+                                            </label>
+                                            <div class="text-xs text-muted">Automatically drop and quarantine TCP connection packets from offending IPs.</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-check form-switch p-2 rounded bg-light border ps-5">
+                                            <input class="form-check-input" type="checkbox" id="setting-enable-notifications" checked>
+                                            <label class="form-check-label font-semibold text-dark text-sm" for="setting-enable-notifications">
+                                                Real-Time Security Notifications
+                                            </label>
+                                            <div class="text-xs text-muted">Generate high-priority UI toast banners and alert logs upon anomaly detection.</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                                    <button type="button" id="btn-reset-defaults" class="btn-secondary-custom">
+                                        <i data-lucide="rotate-ccw" style="width: 15px;"></i> Restore Defaults
+                                    </button>
+                                    <button type="submit" class="btn-primary-custom gradient-btn">
+                                        <i data-lucide="save" style="width: 15px;"></i> Save & Persist Parameters
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/app.js"></script>
+    <script src="static/js/settings.js"></script>
+</body>
+</html>
+

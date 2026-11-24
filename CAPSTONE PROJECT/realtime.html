@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Attack Radar | SentinelShield AASS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body class="bg-primary">
+
+    <div class="sidebar-overlay"></div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a class="brand-logo" href="dashboard.html">
+                    <div class="brand-icon-box">
+                        <i data-lucide="shield-check" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <div>
+                        <span style="color: var(--primary-blue);">Sentinel</span><span style="color: var(--accent-purple);">Shield</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="sidebar-menu">
+                <div class="menu-category">Main Operations</div>
+                <a href="dashboard.html" class="sidebar-link">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Admin Dashboard</span>
+                </a>
+                <a href="realtime.html" class="sidebar-link active">
+                    <i data-lucide="radar"></i>
+                    <span>Real-Time Radar</span>
+                    <span class="sidebar-badge badge-danger">Live</span>
+                </a>
+                <a href="analytics.html" class="sidebar-link">
+                    <i data-lucide="line-chart"></i>
+                    <span>Security Analytics</span>
+                </a>
+
+                <div class="menu-category">Threat Defense (Mod 2)</div>
+                <a href="ip_monitoring.html" class="sidebar-link">
+                    <i data-lucide="globe"></i>
+                    <span>IP Monitoring</span>
+                </a>
+                <a href="alerts.html" class="sidebar-link">
+                    <i data-lucide="bell"></i>
+                    <span>Security Alerts</span>
+                </a>
+                <a href="captcha.html" class="sidebar-link">
+                    <i data-lucide="puzzle"></i>
+                    <span>CAPTCHA Lab</span>
+                </a>
+
+                <div class="menu-category">Identity & Access (Mod 1)</div>
+                <a href="login_history.html" class="sidebar-link">
+                    <i data-lucide="history"></i>
+                    <span>Login History</span>
+                </a>
+                <a href="accounts.html" class="sidebar-link">
+                    <i data-lucide="users"></i>
+                    <span>Account Manager</span>
+                </a>
+                <a href="settings.html" class="sidebar-link">
+                    <i data-lucide="settings"></i>
+                    <span>System Settings</span>
+                </a>
+
+                <div class="menu-category">Quick Navigation</div>
+                <a href="index.html" class="sidebar-link">
+                    <i data-lucide="external-link"></i>
+                    <span>Landing Page</span>
+                </a>
+                <a href="login.html" class="sidebar-link">
+                    <i data-lucide="log-in"></i>
+                    <span>Login Portal</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="user-profile-mini">
+                        <div class="user-avatar-mini">AD</div>
+                        <div>
+                            <div class="text-xs font-bold text-dark" id="nav-user-name">Administrator</div>
+                            <div class="text-xs text-muted">SecOps Admin</div>
+                        </div>
+                    </div>
+                    <button class="btn-icon" title="Logout" onclick="AASS.logout()">
+                        <i data-lucide="log-out" style="width: 16px; height: 16px;"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Wrapper -->
+        <div class="main-wrapper">
+            <!-- Top Navbar -->
+            <header class="top-navbar">
+                <div class="top-navbar-left">
+                    <button id="sidebar-toggle-btn" class="btn-icon d-lg-none">
+                        <i data-lucide="menu"></i>
+                    </button>
+                    <div>
+                        <h4 class="font-bold text-dark mb-0 text-base sm:text-lg">Real-Time Attack Radar & Telemetry Stream</h4>
+                        <div class="text-xs text-secondary">Module 2: Real-Time Brute-Force Attack Detection and Prevention</div>
+                    </div>
+                </div>
+
+                <div class="top-navbar-right">
+                    <button class="team-badge-pill" onclick="AASS.showTeamModal()">
+                        <i data-lucide="award" style="width: 14px; height: 14px;"></i> Team
+                    </button>
+                    <button id="btn-pause-stream" class="btn-secondary-custom btn-sm-custom">
+                        <i data-lucide="pause"></i> Pause Feed
+                    </button>
+                </div>
+            </header>
+
+            <main class="content-body">
+                
+                <!-- Live Simulation Controller Banner -->
+                <div class="card-custom p-4 mb-4" style="background: linear-gradient(135deg, #FFFFFF 0%, #EFF6FF 100%); border-left: 4px solid var(--accent-purple);">
+                    <div class="row align-items-center g-3">
+                        <div class="col-lg-7">
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <span class="badge-status badge-purple">Interactive Attack Simulator</span>
+                                <span class="text-xs text-muted">Demonstration Testing Tool</span>
+                            </div>
+                            <h5 class="font-bold text-dark mb-1">Trigger Brute-Force Wave & Monitor Live Response</h5>
+                            <p class="text-xs text-secondary mb-0">
+                                Observe how the adaptive engine automatically escalates risk scores, displays CAPTCHA challenges, triggers defensive lockouts, and blacklists rogue IPs on the fly.
+                            </p>
+                        </div>
+                        <div class="col-lg-5 text-lg-end">
+                            <div class="d-flex flex-wrap gap-2 justify-content-lg-end">
+                                <button class="btn-secondary-custom btn-sm-custom text-xs" onclick="AASS_Simulator.simulateSingleAttempt(false, 'admin')">
+                                    <i data-lucide="zap"></i> Single Attempt
+                                </button>
+                                <button id="btn-toggle-sim" class="btn-primary-custom btn-sm-custom text-xs" onclick="AASS_Simulator.isRunning ? AASS_Simulator.stopSimulation() : AASS_Simulator.startSimulation(800)">
+                                    <i data-lucide="play"></i> Start Attack Wave
+                                </button>
+                                <button class="btn-secondary-custom btn-sm-custom text-xs" onclick="AASS_Simulator.resetData()">
+                                    <i data-lucide="rotate-ccw"></i> Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <!-- Left Column: Attack Radar & Terminal Window -->
+                    <div class="col-lg-5">
+                        
+                        <!-- Radar Card -->
+                        <div class="card-custom p-4 mb-4 text-center">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="font-bold text-dark mb-0">Live Attack Radar</h6>
+                                <span class="badge-status badge-danger">Live Scanning</span>
+                            </div>
+
+                            <div class="radar-box my-3">
+                                <div class="radar-sweep"></div>
+                                <div class="radar-circle-inner"></div>
+                                <i data-lucide="shield" style="width: 32px; height: 32px; color: var(--primary-blue); z-index: 2;"></i>
+                            </div>
+
+                            <div class="d-flex justify-content-around text-xs text-secondary pt-2 border-top">
+                                <div><span class="pulse-indicator me-1"></span> Perimeter: Clean</div>
+                                <div><span class="pulse-indicator red me-1"></span> Probes Detected</div>
+                            </div>
+                        </div>
+
+                        <!-- Forensic Terminal Window -->
+                        <div class="card-custom p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="font-bold text-dark mb-0">Forensic Packet Inspection</h6>
+                                <button id="btn-clear-terminal" class="btn-secondary-custom btn-sm-custom text-xs py-0 px-2">Clear</button>
+                            </div>
+                            <div class="terminal-window" id="terminal-logs">
+                                <div class="terminal-line"><span class="terminal-time">[10:00:00]</span> <span class="terminal-type-info">[SYS]</span> <span>Adaptive security heuristic engine initiated on port 443.</span></div>
+                                <div class="terminal-line"><span class="terminal-time">[10:00:01]</span> <span class="terminal-type-success">[ENGINE]</span> <span>Sliding time window: 5 min. Lockout duration: 10 min.</span></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Right Column: Live Stream Ticker Cards -->
+                    <div class="col-lg-7">
+                        <div class="card-custom p-4 h-100">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <h5 class="font-bold text-dark mb-0">Live Ingestion Stream</h5>
+                                    <span class="text-xs text-secondary">Real-time authentication decisions</span>
+                                </div>
+                                <span class="badge-status badge-info">Auto-Updating</span>
+                            </div>
+
+                            <div id="live-stream-container" style="max-height: 720px; overflow-y: auto; padding-right: 4px;">
+                                <!-- Stream cards pop here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/app.js"></script>
+    <script src="static/js/simulator.js"></script>
+    <script src="static/js/realtime.js"></script>
+</body>
+</html>
+

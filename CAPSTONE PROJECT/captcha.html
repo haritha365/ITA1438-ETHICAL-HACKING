@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPTCHA Verification Lab | SentinelShield AASS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body class="bg-primary">
+
+    <div class="sidebar-overlay"></div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a class="brand-logo" href="dashboard.html">
+                    <div class="brand-icon-box">
+                        <i data-lucide="shield-check" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <div>
+                        <span style="color: var(--primary-blue);">Sentinel</span><span style="color: var(--accent-purple);">Shield</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="sidebar-menu">
+                <div class="menu-category">Main Operations</div>
+                <a href="dashboard.html" class="sidebar-link">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Admin Dashboard</span>
+                </a>
+                <a href="realtime.html" class="sidebar-link">
+                    <i data-lucide="radar"></i>
+                    <span>Real-Time Radar</span>
+                </a>
+                <a href="analytics.html" class="sidebar-link">
+                    <i data-lucide="line-chart"></i>
+                    <span>Security Analytics</span>
+                </a>
+
+                <div class="menu-category">Threat Defense (Mod 2)</div>
+                <a href="ip_monitoring.html" class="sidebar-link">
+                    <i data-lucide="globe"></i>
+                    <span>IP Monitoring</span>
+                </a>
+                <a href="alerts.html" class="sidebar-link">
+                    <i data-lucide="bell"></i>
+                    <span>Security Alerts</span>
+                </a>
+                <a href="captcha.html" class="sidebar-link active">
+                    <i data-lucide="puzzle"></i>
+                    <span>CAPTCHA Lab</span>
+                    <span class="sidebar-badge badge-purple">Demo</span>
+                </a>
+
+                <div class="menu-category">Identity & Access (Mod 1)</div>
+                <a href="login_history.html" class="sidebar-link">
+                    <i data-lucide="history"></i>
+                    <span>Login History</span>
+                </a>
+                <a href="accounts.html" class="sidebar-link">
+                    <i data-lucide="users"></i>
+                    <span>Account Manager</span>
+                </a>
+                <a href="settings.html" class="sidebar-link">
+                    <i data-lucide="settings"></i>
+                    <span>System Settings</span>
+                </a>
+
+                <div class="menu-category">Quick Navigation</div>
+                <a href="index.html" class="sidebar-link">
+                    <i data-lucide="external-link"></i>
+                    <span>Landing Page</span>
+                </a>
+                <a href="login.html" class="sidebar-link">
+                    <i data-lucide="log-in"></i>
+                    <span>Login Portal</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="user-profile-mini">
+                        <div class="user-avatar-mini">AD</div>
+                        <div>
+                            <div class="text-xs font-bold text-dark" id="nav-user-name">Administrator</div>
+                            <div class="text-xs text-muted">SecOps Admin</div>
+                        </div>
+                    </div>
+                    <button class="btn-icon" title="Logout" onclick="AASS.logout()">
+                        <i data-lucide="log-out" style="width: 16px; height: 16px;"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-wrapper">
+            <header class="top-navbar">
+                <div class="top-navbar-left">
+                    <button id="sidebar-toggle-btn" class="btn-icon d-lg-none"><i data-lucide="menu"></i></button>
+                    <div>
+                        <h4 class="font-bold text-dark mb-0 text-base sm:text-lg">Adaptive CAPTCHA Challenge Lab</h4>
+                        <div class="text-xs text-secondary">Module 2: Dynamic Anti-Automation Challenge Verification Subsystem</div>
+                    </div>
+                </div>
+
+                <div class="top-navbar-right">
+                    <button class="team-badge-pill" onclick="AASS.showTeamModal()">
+                        <i data-lucide="award" style="width: 14px; height: 14px;"></i> Team
+                    </button>
+                </div>
+            </header>
+
+            <main class="content-body">
+                
+                <div class="row g-4 justify-content-center">
+                    
+                    <!-- Left: Interactive Challenge Tester -->
+                    <div class="col-lg-6">
+                        <div class="card-custom p-4 p-sm-5 bg-white">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="font-bold text-dark mb-0">Interactive CAPTCHA Generator</h5>
+                                <span class="badge-status badge-info">Zero Bot Pass Rate</span>
+                            </div>
+                            <p class="text-xs text-secondary mb-4">
+                                Test the distortion algorithms, line occlusion, font jitter, and audio synthesis engine utilized during high-risk login attempts.
+                            </p>
+
+                            <!-- Mode Selector -->
+                            <div class="mb-4">
+                                <label class="form-label-custom">Challenge Mode</label>
+                                <div class="btn-group w-100" role="group">
+                                    <button type="button" id="btn-mode-alpha" class="btn-primary-custom btn-sm-custom justify-content-center" onclick="setCaptchaMode('alphanumeric')">
+                                        Distorted Alphanumeric
+                                    </button>
+                                    <button type="button" id="btn-mode-math" class="btn-secondary-custom btn-sm-custom justify-content-center" onclick="setCaptchaMode('math')">
+                                        Mathematical Problem
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Interactive CAPTCHA Box -->
+                            <div class="captcha-box-container mb-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-xs font-bold text-dark">Security Challenge Display</span>
+                                    <div class="d-flex gap-2">
+                                        <button type="button" class="btn-secondary-custom btn-sm-custom text-xs py-1" onclick="AASS_Captcha.playAudioChallenge()">
+                                            <i data-lucide="volume-2" style="width: 14px;"></i> Audio Challenge
+                                        </button>
+                                        <button type="button" class="btn-secondary-custom btn-sm-custom text-xs py-1" onclick="AASS_Captcha.generate('labCaptchaCanvas')">
+                                            <i data-lucide="rotate-cw" style="width: 14px;"></i> New Code
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="captcha-canvas-wrap my-2">
+                                    <canvas id="labCaptchaCanvas" width="220" height="60"></canvas>
+                                </div>
+
+                                <div class="mt-3">
+                                    <input type="text" id="labCaptchaInput" class="form-control form-control-custom text-center text-lg font-mono uppercase tracking-widest" placeholder="Enter Challenge Answer" maxlength="10">
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn-primary-custom gradient-btn w-100 justify-content-center py-2" onclick="testCaptchaVerification()">
+                                <i data-lucide="check-circle-2"></i> Verify Challenge Answer
+                            </button>
+
+                            <div id="captcha-lab-feedback" class="mt-3 text-center text-xs font-semibold"></div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Technical Specification & Logic Card -->
+                    <div class="col-lg-6">
+                        <div class="card-custom p-4 h-100">
+                            <h5 class="font-bold text-dark mb-3">Adaptive Triggering Architecture</h5>
+                            
+                            <div class="mb-4">
+                                <h6 class="text-xs font-bold text-primary uppercase tracking-wider mb-2">When is CAPTCHA triggered?</h6>
+                                <p class="text-xs text-secondary" style="line-height: 1.8;">
+                                    In conventional authentication systems, CAPTCHAs are either displayed statically on every login (ruining UX) or only after a full account lockout. 
+                                    SentinelShield's <strong>Adaptive Security Engine</strong> introduces intelligent intermediate friction:
+                                </p>
+                                <ul class="text-xs text-secondary ps-3 mb-0" style="line-height: 1.9;">
+                                    <li><strong>Attempt 1–2:</strong> Normal authentication without friction for trusted users.</li>
+                                    <li><strong>Attempt 3+:</strong> Risk score exceeds threshold (&ge; 40%). CAPTCHA is injected dynamically into the login payload.</li>
+                                    <li><strong>Automated Bots:</strong> High-speed dictionary scripts (Hydra, Burp, Python scripts) fail the CAPTCHA step immediately.</li>
+                                    <li><strong>Successful Solution:</strong> Valid verification temporarily decrements the session's risk penalty, acknowledging human presence.</li>
+                                </ul>
+                            </div>
+
+                            <hr>
+
+                            <div class="mb-3">
+                                <h6 class="text-xs font-bold text-purple uppercase tracking-wider mb-2">Security Hardening Features</h6>
+                                <div class="row g-2 text-xs">
+                                    <div class="col-6">
+                                        <div class="p-2 rounded bg-light border">
+                                            <strong>Server-Side State:</strong>
+                                            <div class="text-muted mt-1">Answer never exposed in DOM or cookies.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="p-2 rounded bg-light border">
+                                            <strong>Entropy & Noise:</strong>
+                                            <div class="text-muted mt-1">Random Bezier curves, jitter, and noise dots.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="p-2 rounded bg-light border">
+                                            <strong>One-Time Expiry:</strong>
+                                            <div class="text-muted mt-1">Challenge invalidated after single submission.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="p-2 rounded bg-light border">
+                                            <strong>Voice Accessibility:</strong>
+                                            <div class="text-muted mt-1">Web Speech audio challenge support.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/app.js"></script>
+    <script src="static/js/captcha.js"></script>
+    <script>
+        function setCaptchaMode(mode) {
+            AASS_Captcha.challengeType = mode;
+            const btnAlpha = document.getElementById('btn-mode-alpha');
+            const btnMath = document.getElementById('btn-mode-math');
+            if (mode === 'math') {
+                btnMath.className = 'btn-primary-custom btn-sm-custom justify-content-center';
+                btnAlpha.className = 'btn-secondary-custom btn-sm-custom justify-content-center';
+            } else {
+                btnAlpha.className = 'btn-primary-custom btn-sm-custom justify-content-center';
+                btnMath.className = 'btn-secondary-custom btn-sm-custom justify-content-center';
+            }
+            AASS_Captcha.generate('labCaptchaCanvas');
+        }
+
+        function testCaptchaVerification() {
+            const input = document.getElementById('labCaptchaInput').value;
+            const feedback = document.getElementById('captcha-lab-feedback');
+            if (AASS_Captcha.verify(input)) {
+                feedback.innerHTML = '<span class="text-success"><i data-lucide="check"></i> Verification Successful! Adaptive risk score mitigated.</span>';
+                AASS.showToast('CAPTCHA solved successfully! Authentication challenge passed.', 'success');
+            } else {
+                feedback.innerHTML = '<span class="text-danger"><i data-lucide="x"></i> Verification Failed. Answer does not match server token.</span>';
+                AASS.showToast('CAPTCHA verification mismatch. Refreshing challenge code...', 'danger');
+                AASS_Captcha.generate('labCaptchaCanvas');
+            }
+            AASS.initLucide();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            AASS_Captcha.generate('labCaptchaCanvas');
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Analytics | SentinelShield AASS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body class="bg-primary">
+
+    <div class="sidebar-overlay"></div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a class="brand-logo" href="dashboard.html">
+                    <div class="brand-icon-box">
+                        <i data-lucide="shield-check" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <div>
+                        <span style="color: var(--primary-blue);">Sentinel</span><span style="color: var(--accent-purple);">Shield</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="sidebar-menu">
+                <div class="menu-category">Main Operations</div>
+                <a href="dashboard.html" class="sidebar-link">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Admin Dashboard</span>
+                </a>
+                <a href="realtime.html" class="sidebar-link">
+                    <i data-lucide="radar"></i>
+                    <span>Real-Time Radar</span>
+                </a>
+                <a href="analytics.html" class="sidebar-link active">
+                    <i data-lucide="line-chart"></i>
+                    <span>Security Analytics</span>
+                </a>
+
+                <div class="menu-category">Threat Defense (Mod 2)</div>
+                <a href="ip_monitoring.html" class="sidebar-link">
+                    <i data-lucide="globe"></i>
+                    <span>IP Monitoring</span>
+                </a>
+                <a href="alerts.html" class="sidebar-link">
+                    <i data-lucide="bell"></i>
+                    <span>Security Alerts</span>
+                </a>
+                <a href="captcha.html" class="sidebar-link">
+                    <i data-lucide="puzzle"></i>
+                    <span>CAPTCHA Lab</span>
+                </a>
+
+                <div class="menu-category">Identity & Access (Mod 1)</div>
+                <a href="login_history.html" class="sidebar-link">
+                    <i data-lucide="history"></i>
+                    <span>Login History</span>
+                </a>
+                <a href="accounts.html" class="sidebar-link">
+                    <i data-lucide="users"></i>
+                    <span>Account Manager</span>
+                </a>
+                <a href="settings.html" class="sidebar-link">
+                    <i data-lucide="settings"></i>
+                    <span>System Settings</span>
+                </a>
+
+                <div class="menu-category">Quick Navigation</div>
+                <a href="index.html" class="sidebar-link">
+                    <i data-lucide="external-link"></i>
+                    <span>Landing Page</span>
+                </a>
+                <a href="login.html" class="sidebar-link">
+                    <i data-lucide="log-in"></i>
+                    <span>Login Portal</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="user-profile-mini">
+                        <div class="user-avatar-mini">AD</div>
+                        <div>
+                            <div class="text-xs font-bold text-dark" id="nav-user-name">Administrator</div>
+                            <div class="text-xs text-muted">SecOps Admin</div>
+                        </div>
+                    </div>
+                    <button class="btn-icon" title="Logout" onclick="AASS.logout()">
+                        <i data-lucide="log-out" style="width: 16px; height: 16px;"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-wrapper">
+            <header class="top-navbar">
+                <div class="top-navbar-left">
+                    <button id="sidebar-toggle-btn" class="btn-icon d-lg-none"><i data-lucide="menu"></i></button>
+                    <div>
+                        <h4 class="font-bold text-dark mb-0 text-base sm:text-lg">Security Forensics & Threat Analytics</h4>
+                        <div class="text-xs text-secondary">In-depth statistical intelligence & attack vectors</div>
+                    </div>
+                </div>
+
+                <div class="top-navbar-right">
+                    <!-- Date range buttons -->
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn-secondary-custom btn-sm-custom text-xs" data-timerange="today">Today</button>
+                        <button type="button" class="btn-primary-custom btn-sm-custom text-xs active" data-timerange="7d">7 Days</button>
+                        <button type="button" class="btn-secondary-custom btn-sm-custom text-xs" data-timerange="30d">30 Days</button>
+                    </div>
+
+                    <button id="btn-export-analytics" class="btn-secondary-custom btn-sm-custom">
+                        <i data-lucide="download" style="width: 14px; height: 14px;"></i> Export Report
+                    </button>
+                </div>
+            </header>
+
+            <main class="content-body">
+                
+                <!-- KPI Row -->
+                <div class="row g-3 mb-4">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="card-custom p-3">
+                            <span class="text-xs text-secondary font-semibold uppercase">Mitigation Rate</span>
+                            <h3 class="font-bold text-success mb-0 mt-1">99.8%</h3>
+                            <span class="text-xs text-muted">0 credential spills</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="card-custom p-3">
+                            <span class="text-xs text-secondary font-semibold uppercase">Mean Lockout Cooldown</span>
+                            <h3 class="font-bold text-dark mb-0 mt-1">10 mins</h3>
+                            <span class="text-xs text-muted">Configurable duration</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="card-custom p-3">
+                            <span class="text-xs text-secondary font-semibold uppercase">CAPTCHA Challenge Rate</span>
+                            <h3 class="font-bold text-purple mb-0 mt-1" style="color: var(--accent-purple);">4.2%</h3>
+                            <span class="text-xs text-muted">Of total requests</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="card-custom p-3">
+                            <span class="text-xs text-secondary font-semibold uppercase">Avg Attack Probe Burst</span>
+                            <h3 class="font-bold text-danger mb-0 mt-1">12.4 req/s</h3>
+                            <span class="text-xs text-muted">Before IP isolation</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trend & Distribution Charts -->
+                <div class="row g-4 mb-4">
+                    <div class="col-lg-8">
+                        <div class="card-custom p-4 h-100">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <h5 class="font-bold text-dark mb-0">Daily & Weekly Attack Trends vs Adaptive Response</h5>
+                                    <span class="text-xs text-secondary">Attack attempts vs automated mitigation triggers</span>
+                                </div>
+                            </div>
+                            <div style="height: 300px;">
+                                <canvas id="chartAttackTrends"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="card-custom p-4 h-100">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <h6 class="font-bold text-dark mb-0">Attack Vectors</h6>
+                                    <span class="text-xs text-secondary">Methodology breakdown</span>
+                                </div>
+                            </div>
+                            <div style="height: 300px;">
+                                <canvas id="chartMethodBreakdown"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Risk Histogram & Tables -->
+                <div class="row g-4 mb-4">
+                    <div class="col-lg-5">
+                        <div class="card-custom p-4 h-100">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <h6 class="font-bold text-dark mb-0">Security Risk Score Distribution</h6>
+                                    <span class="text-xs text-secondary">Risk brackets for historical logins</span>
+                                </div>
+                            </div>
+                            <div style="height: 260px;">
+                                <canvas id="chartRiskDistribution"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-7">
+                        <div class="card-custom p-4 h-100">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <h6 class="font-bold text-dark mb-0">Most Targeted User Accounts</h6>
+                                    <span class="text-xs text-secondary">Frequent dictionary targets</span>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th>Account Target</th>
+                                            <th>Total Probes</th>
+                                            <th>Attacks</th>
+                                            <th>Account Status</th>
+                                            <th>Last Event</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="targeted-accounts-tbody">
+                                        <!-- Rendered by analytics.js -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Attacker IPs Breakdown -->
+                <div class="card-custom p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h5 class="font-bold text-dark mb-0">Frequently Detected Attacker IPs & Geolocations</h5>
+                            <span class="text-xs text-secondary">Autonomous systems & proxy origins</span>
+                        </div>
+                        <a href="ip_monitoring.html" class="btn-secondary-custom btn-sm-custom text-xs">Manage IP Quarantines</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Attacking IP</th>
+                                    <th>Geo / ISP Origin</th>
+                                    <th>Attack Attempts</th>
+                                    <th>Observed Vector</th>
+                                    <th>Threat Risk</th>
+                                </tr>
+                            </thead>
+                            <tbody id="attacker-ips-tbody">
+                                <!-- Rendered by analytics.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/app.js"></script>
+    <script src="static/js/analytics.js"></script>
+</body>
+</html>
+

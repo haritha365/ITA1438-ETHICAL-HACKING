@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Management | SentinelShield AASS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body class="bg-primary">
+
+    <div class="sidebar-overlay"></div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a class="brand-logo" href="dashboard.html">
+                    <div class="brand-icon-box">
+                        <i data-lucide="shield-check" style="width: 20px; height: 20px;"></i>
+                    </div>
+                    <div>
+                        <span style="color: var(--primary-blue);">Sentinel</span><span style="color: var(--accent-purple);">Shield</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="sidebar-menu">
+                <div class="menu-category">Main Operations</div>
+                <a href="dashboard.html" class="sidebar-link">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Admin Dashboard</span>
+                </a>
+                <a href="realtime.html" class="sidebar-link">
+                    <i data-lucide="radar"></i>
+                    <span>Real-Time Radar</span>
+                </a>
+                <a href="analytics.html" class="sidebar-link">
+                    <i data-lucide="line-chart"></i>
+                    <span>Security Analytics</span>
+                </a>
+
+                <div class="menu-category">Threat Defense (Mod 2)</div>
+                <a href="ip_monitoring.html" class="sidebar-link">
+                    <i data-lucide="globe"></i>
+                    <span>IP Monitoring</span>
+                </a>
+                <a href="alerts.html" class="sidebar-link">
+                    <i data-lucide="bell"></i>
+                    <span>Security Alerts</span>
+                </a>
+                <a href="captcha.html" class="sidebar-link">
+                    <i data-lucide="puzzle"></i>
+                    <span>CAPTCHA Lab</span>
+                </a>
+
+                <div class="menu-category">Identity & Access (Mod 1)</div>
+                <a href="login_history.html" class="sidebar-link">
+                    <i data-lucide="history"></i>
+                    <span>Login History</span>
+                </a>
+                <a href="accounts.html" class="sidebar-link active">
+                    <i data-lucide="users"></i>
+                    <span>Account Manager</span>
+                </a>
+                <a href="settings.html" class="sidebar-link">
+                    <i data-lucide="settings"></i>
+                    <span>System Settings</span>
+                </a>
+
+                <div class="menu-category">Quick Navigation</div>
+                <a href="index.html" class="sidebar-link">
+                    <i data-lucide="external-link"></i>
+                    <span>Landing Page</span>
+                </a>
+                <a href="login.html" class="sidebar-link">
+                    <i data-lucide="log-in"></i>
+                    <span>Login Portal</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="user-profile-mini">
+                        <div class="user-avatar-mini">AD</div>
+                        <div>
+                            <div class="text-xs font-bold text-dark" id="nav-user-name">Administrator</div>
+                            <div class="text-xs text-muted">SecOps Admin</div>
+                        </div>
+                    </div>
+                    <button class="btn-icon" title="Logout" onclick="AASS.logout()">
+                        <i data-lucide="log-out" style="width: 16px; height: 16px;"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-wrapper">
+            <header class="top-navbar">
+                <div class="top-navbar-left">
+                    <button id="sidebar-toggle-btn" class="btn-icon d-lg-none"><i data-lucide="menu"></i></button>
+                    <div>
+                        <h4 class="font-bold text-dark mb-0 text-base sm:text-lg">User Identity & Lockout Management</h4>
+                        <div class="text-xs text-secondary">Module 1: Directory, role-based access control, and account unlock triggers</div>
+                    </div>
+                </div>
+
+                <div class="top-navbar-right">
+                    <button class="btn-primary-custom btn-sm-custom gradient-btn" data-bs-toggle="modal" data-bs-target="#newUserModal">
+                        <i data-lucide="user-plus" style="width: 14px; height: 14px;"></i> Create New User
+                    </button>
+                </div>
+            </header>
+
+            <main class="content-body">
+                
+                <!-- Search Toolbar -->
+                <div class="card-custom p-3 mb-4">
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0" style="border-color: var(--border-color);"><i data-lucide="search" style="width: 15px; color: var(--text-muted);"></i></span>
+                                <input type="text" id="account-search-input" class="form-control form-control-custom border-start-0" placeholder="Search accounts by name, username, or email address...">
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-md-end text-xs text-muted">
+                            <span class="badge-status badge-purple">Argon2 Password Hashing</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accounts Table -->
+                <div class="card-custom p-4">
+                    <div class="table-responsive">
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th>User Profile</th>
+                                    <th>Email Address</th>
+                                    <th>System Role</th>
+                                    <th>Account Status</th>
+                                    <th>Failed Attempts</th>
+                                    <th>Last Authentication</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="accounts-table-tbody">
+                                <!-- Populated dynamically by accounts.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Create User Modal -->
+    <div class="modal fade" id="newUserModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content card-custom" style="border-radius: 18px; border: 1px solid var(--border-color);">
+                <div class="modal-header" style="border-bottom: 1px solid var(--border-color);">
+                    <h5 class="modal-title font-bold text-dark">Create User Account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="new-user-form">
+                    <div class="modal-body p-4">
+                        <div class="mb-3">
+                            <label class="form-label-custom">Full Name</label>
+                            <input type="text" id="new-user-name" class="form-control form-control-custom" placeholder="e.g. Rachel Adams" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label-custom">Username</label>
+                            <input type="text" id="new-user-username" class="form-control form-control-custom" placeholder="e.g. r_adams" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label-custom">Email Address</label>
+                            <input type="email" id="new-user-email" class="form-control form-control-custom" placeholder="rachel@sentinel.ai" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label-custom">Security Role</label>
+                            <select id="new-user-role" class="form-select form-select-custom">
+                                <option value="Standard User">Standard User</option>
+                                <option value="Security Analyst">Security Analyst</option>
+                                <option value="Administrator">Administrator</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="border-top: 1px solid var(--border-color);">
+                        <button type="button" class="btn-secondary-custom" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn-primary-custom gradient-btn">Create & Secure Account</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/app.js"></script>
+    <script src="static/js/accounts.js"></script>
+</body>
+</html>
+
